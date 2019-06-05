@@ -1,11 +1,11 @@
 """
 The following classes are defined:
-    LeakyReLUNeuron
-    LeakyReLULayer
+    LeakyReLUActivationNeuron
+    LeakyReLUActivationLayer
 """
 
 
-class LeakyReLUNeuron:
+class LeakyReLUActivationNeuron:
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -20,7 +20,7 @@ class LeakyReLUNeuron:
             self._output.value = self._input.value*0.01
 
 
-class LeakyReLULayer:
+class LeakyReLUActivationLayer:
     def __init__(self, inputs, outputs):
         if len(outputs) != len(inputs):
             raise TypeError(
@@ -33,5 +33,6 @@ class LeakyReLULayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            LeakyReLUNeuron(inputs[i], outputs[i]) for i in range(len(inputs))
+            LeakyReLUActivationNeuron(inputs[i], outputs[i])
+            for i in range(len(inputs))
         ]

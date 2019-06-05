@@ -7,7 +7,7 @@ The following classes are defined:
 class Connection:
     def __init__(self, value=0):
         self._value = value
-        self._connections = []
+        self._callbacks = []
 
     @property
     def value(self):
@@ -17,9 +17,9 @@ class Connection:
     def value(self, value):
         if value != self._value:
             self._value = value
-            for callback in self._connections:
+            for callback in self._callbacks:
                 callback()
 
     def bind_to(self, callback):
-        if callback not in self._connections:
-            self._connections.append(callback)
+        if callback not in self._callbacks:
+            self._callbacks.append(callback)

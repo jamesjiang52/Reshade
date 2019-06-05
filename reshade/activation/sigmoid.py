@@ -1,13 +1,13 @@
 """
 The following classes are defined:
-    SigmoidNeuron
-    SigmoidLayer
+    SigmoidActivationNeuron
+    SigmoidActivationLayer
 """
 
 from math import exp
 
 
-class SigmoidNeuron:
+class SigmoidActivationNeuron:
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -19,7 +19,7 @@ class SigmoidNeuron:
         self._output.value = 1/(1 + exp(-self._input.value))
 
 
-class SigmoidLayer:
+class SigmoidActivationLayer:
     def __init__(self, inputs, outputs):
         if len(outputs) != len(inputs):
             raise TypeError(
@@ -32,5 +32,6 @@ class SigmoidLayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            SigmoidNeuron(inputs[i], outputs[i]) for i in range(len(inputs))
+            SigmoidActivationNeuron(inputs[i], outputs[i])
+            for i in range(len(inputs))
         ]

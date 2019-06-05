@@ -1,11 +1,11 @@
 """
 The following classes are defined:
-    BinaryStepNeuron
-    BinaryStepLayer
+    BinaryStepActivationNeuron
+    BinaryStepActivationLayer
 """
 
 
-class BinaryStepNeuron:
+class BinaryStepActivationNeuron:
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -20,7 +20,7 @@ class BinaryStepNeuron:
             self._output.value = 0
 
 
-class BinaryStepLayer:
+class BinaryStepActivationLayer:
     def __init__(self, inputs, outputs):
         if len(outputs) != len(inputs):
             raise TypeError(
@@ -33,6 +33,6 @@ class BinaryStepLayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            BinaryStepNeuron(inputs[i], outputs[i])
+            BinaryStepActivationNeuron(inputs[i], outputs[i])
             for i in range(len(inputs))
         ]

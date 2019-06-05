@@ -1,13 +1,13 @@
 """
 The following classes are defined:
-    TanhNeuron
-    TanhLayer
+    TanhActivationNeuron
+    TanhActivationLayer
 """
 
 from math import tanh
 
 
-class TanhNeuron:
+class TanhActivationNeuron:
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -19,7 +19,7 @@ class TanhNeuron:
         self._output.value = tanh(self._input.value)
 
 
-class TanhLayer:
+class TanhActivationLayer:
     def __init__(self, inputs, outputs):
         if len(outputs) != len(inputs):
             raise TypeError(
@@ -32,5 +32,6 @@ class TanhLayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            TanhNeuron(inputs[i], outputs[i]) for i in range(len(inputs))
+            TanhActivationNeuron(inputs[i], outputs[i])
+            for i in range(len(inputs))
         ]

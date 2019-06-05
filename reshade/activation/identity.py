@@ -1,11 +1,11 @@
 """
 The following classes are defined:
-    IdentityNeuron
-    IdentityLayer
+    IdentityActivationNeuron
+    IdentityActivationLayer
 """
 
 
-class IdentityNeuron:
+class IdentityActivationNeuron:
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -17,7 +17,7 @@ class IdentityNeuron:
         self._output.value = self._input.value
 
 
-class IdentityLayer:
+class IdentityActivationLayer:
     def __init__(self, inputs, outputs):
         if len(outputs) != len(inputs):
             raise TypeError(
@@ -30,5 +30,6 @@ class IdentityLayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            IdentityNeuron(inputs[i], outputs[i]) for i in range(len(inputs))
+            IdentityActivationNeuron(inputs[i], outputs[i]) 
+            for i in range(len(inputs))
         ]

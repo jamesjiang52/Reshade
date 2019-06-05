@@ -1,11 +1,11 @@
 """
 The following classes are defined:
-    ReLULNeuron
-    ReLULayer
+    ReLUActivationNeuron
+    ReLUActivationLayer
 """
 
 
-class ReLUNeuron:
+class ReLUActivationNeuron:
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -20,7 +20,7 @@ class ReLUNeuron:
             self._output.value = 0
 
 
-class ReLULayer:
+class ReLUActivationLayer:
     def __init__(self, inputs, outputs):
         if len(outputs) != len(inputs):
             raise TypeError(
@@ -33,5 +33,6 @@ class ReLULayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            ReLUNeuron(inputs[i], outputs[i]) for i in range(len(inputs))
+            ReLUActivationNeuron(inputs[i], outputs[i])
+            for i in range(len(inputs))
         ]

@@ -3,7 +3,7 @@ The following classes are defined:
     DenseLayer
 """
 
-from neuron import Neuron
+from .neuron import Neuron
 
 
 class DenseLayer:

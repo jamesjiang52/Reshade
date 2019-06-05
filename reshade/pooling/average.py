@@ -10,15 +10,16 @@ class AveragePoolingNeuron:
         self._inputs = inputs
         self._output = output
 
-        for input_ in self._inputs:
-            input_.bind_to(self._update_inputs)
+        for row in self._inputs:
+            for input_ in row:
+                input_.bind_to(self._update_inputs)
 
         self._update_inputs()
 
     def _update_inputs(self):
         self._output.value = sum([
-            input_.value for input_ in self._inputs
-        ])/len(self._inputs)
+            input_.value for row in self._inputs for input_ in row
+        ])/(len(self._inputs)*len(self._inputs[0]))
 
 
 class AveragePoolingLayer:
@@ -81,11 +82,10 @@ class AveragePoolingLayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [
-            AveragePoolingNeuron([
-                self._inputs[y + i][x + j]
-                for i in range(stride_height)
-                for j in range(stride_width)],
-                outputs[y/stride_height][x/stride_width]
+            AveragePoolingNeuron(
+                [row[x:x + pooling_width]
+                    for row in self._inputs[y:y + pooling_height]],
+                self._outputs[y/stride_height][x/stride_width]
             )
             for y in range(0, len(self._inputs) - pooling_height + 1,
                            stride_height)
