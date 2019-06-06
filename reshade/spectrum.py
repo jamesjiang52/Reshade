@@ -41,7 +41,7 @@ class Spectrum:
             return [self._connections[i]
                     for i in range(*key.indices(len(self._connections)))]
         if (key >= 0) and (key < len(self._connections)):
-            return self._wires[key]
+            return self._connections[key]
         else:
             raise IndexError("Spectrum height exceeded.")
 

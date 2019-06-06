@@ -2,7 +2,7 @@ import reshade as rs
 
 
 class TestIdentityActivationNeuron:
-    def __init__(self):
+    def test_IdentityActivationNeuron(self):
         input = rs.Connection()
         output = rs.Connection()
 
@@ -15,7 +15,7 @@ class TestIdentityActivationNeuron:
         assert output.value == -1
 
         input.value = -2
-        assert output.value == 2
+        assert output.value == -2
 
         input.value = 1
         assert output.value == 1

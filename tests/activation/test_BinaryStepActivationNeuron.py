@@ -2,7 +2,7 @@ import reshade as rs
 
 
 class TestBinaryStepActivationNeuron:
-    def __init__(self):
+    def test_BinaryStepActivationNeuron(self):
         input = rs.Connection()
         output = rs.Connection()
 

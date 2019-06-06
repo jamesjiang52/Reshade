@@ -2,7 +2,7 @@ import reshade as rs
 
 
 class TestLeakyReLUActivationNeuron:
-    def __init__(self):
+    def test_LeakyReLUActivationNeuron(self):
         input = rs.Connection()
         output = rs.Connection()
 
