@@ -5,10 +5,13 @@ The following classes are defined:
 """
 
 from math import sqrt
+from ..utils.validate import *
 
 
 class L2NormPoolingNeuron:
     def __init__(self, inputs, output):
+        validate_dimensions_image(inputs)
+
         self._inputs = inputs
         self._output = output
 
@@ -29,68 +32,32 @@ class L2NormPoolingLayer:
         self,
         inputs,
         outputs,
-        pooling_height,
-        pooling_width,
+        receptive_height,
+        receptive_width,
         stride_height,
         stride_width
     ):
-        if len(inputs) < pooling_height:
-            raise ValueError(
-                "Input height must be greater than or equal to pooling height."
-            )
-        if len(inputs) % stride_height != pooling_height % stride_height:
-            raise ValueError(
-                "Input height is not compatible with current pooling height "
-                "and stride height."
-            )
-        if len(outputs) != (len(inputs) - pooling_height)/stride_height + 1:
-            raise ValueError(
-                "Output height does not match current input height, pooling"
-                "height, and stride height (received {0}, expected "
-                "{1}).".format(
-                    len(outputs),
-                    (len(inputs) - pooling_height)/stride_height + 1
-                )
-            )
-        if pooling_height < stride_height:
-            raise ValueError(
-                "Pooling height must be greater than or equal to stride "
-                "height."
-            )
-
-        if len(inputs[0]) < pooling_width:
-            raise ValueError(
-                "Input width must be greater than or equal to pooling width."
-            )
-        if len(inputs[0]) % stride_width != pooling_width % stride_width:
-            raise ValueError(
-                "Input width is not compatible with current pooling width and "
-                "stride width."
-            )
-        if len(outputs[0]) != \
-                (len(inputs[0]) - pooling_width)/stride_width:
-            raise ValueError(
-                "Output width does not match current input width, pooling "
-                "width, and stride width (received {0}, expected {1}).".format(
-                    len(outputs[0]),
-                    (len(inputs[0]) - pooling_width)/stride_width + 1
-                )
-            )
-        if pooling_width < stride_width:
-            raise ValueError(
-                "Pooling width must be greater than or equal to stride width."
-            )
+        validate_dimensions_layer(inputs)
+        validate_dimensions_layer(outputs)
+        validate_receptive_parameters(
+            inputs,
+            outputs,
+            receptive_height,
+            receptive_width,
+            stride_height,
+            stride_width
+        )
 
         self._inputs = inputs
         self._outputs = outputs
-        self._neurons = [
+        self._neurons = [[[
             L2NormPoolingNeuron(
-                [row[x:x + pooling_width]
-                    for row in self._inputs[y:y + pooling_height]],
-                self._outputs[y/stride_height][x/stride_width]
+                [row[x:x + receptive_width]
+                    for row in self._inputs[d][y:y + receptive_height]],
+                self._outputs[d][y//stride_height][x//stride_width]
             )
-            for y in range(0, len(self._inputs) - pooling_height + 1,
-                           stride_height)
-            for x in range(0, len(self._inputs[0]) - pooling_width + 1,
-                           stride_width)
-        ]
+            for x in range(0, len(self._inputs[d][y]) - receptive_width + 1,
+                           stride_width)]
+            for y in range(0, len(self._inputs[d]) - receptive_height + 1,
+                           stride_height)]
+            for d in range(len(inputs))]

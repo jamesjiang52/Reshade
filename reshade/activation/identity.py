@@ -4,6 +4,8 @@ The following classes are defined:
     IdentityActivationLayer
 """
 
+from ..utils.validate import *
+
 
 class IdentityActivationNeuron:
     def __init__(self, input, output):
@@ -19,17 +21,14 @@ class IdentityActivationNeuron:
 
 class IdentityActivationLayer:
     def __init__(self, inputs, outputs):
-        if len(outputs) != len(inputs):
-            raise TypeError(
-                "Expected {0} outputs, received {1}.".format(
-                    len(inputs),
-                    len(outputs)
-                )
-            )
+        validate_dimensions_layer(inputs)
+        validate_dimensions_layer(outputs)
+        validate_same_dimensions_layer(inputs, outputs)
 
         self._inputs = inputs
         self._outputs = outputs
-        self._neurons = [
-            IdentityActivationNeuron(inputs[i], outputs[i]) 
-            for i in range(len(inputs))
-        ]
+        self._neurons = [[[
+            IdentityActivationNeuron(inputs[i][j][k], outputs[i][j][k])
+            for k in range(len(inputs[0][0]))]
+            for j in range(len(inputs[0]))]
+            for i in range(len(inputs))]

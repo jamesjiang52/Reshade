@@ -1,19 +1,25 @@
 """
 The following classes are defined:
-	Spectrum
+    Image
 """
 
+from ..utils.validate import *
 from .connection import Connection
 
 
-class Spectrum:
-    def __init__(self, *, connections=None, height=None):
+class Image:
+    def __init__(self, *, connections=None, height=None, width=None):
         if connections is not None:
+            validate_dimensions_image(connections)
             self._connections = connections
-        elif height is not None:
-            self._connections = [Connection() for i in range(height)]
-        else:
-            raise TypeError("The height of the spectrum must be specified.")
+        elif height is not None and width is not None:
+            self._connections = [[Connection()
+                                 for j in range(width)]
+                                 for i in range(height)]
+        else:  # only one of height or width was provided
+            raise TypeError(
+                "The height and width of the image must be specified."
+            )
 
     @property
     def connections(self):
@@ -21,20 +27,17 @@ class Spectrum:
 
     @property
     def values(self):
-        return [connection.value for connection in self._connections]
+        return [[connection.value for connection in row]
+                for row in self._connections]
 
     @values.setter
     def values(self, values):
-        if len(values) != len(self._connections):
-            raise TypeError(
-                "Expected {0} arguments, received {1}.".format(
-                    len(self._connections),
-                    len(values)
-                )
-            )
+        validate_dimensions_image(values)
+        validate_same_dimensions_image(self._connections, values)
 
         for i in range(len(self._connections)):
-            self._connections[i].value = values[i]
+            for j in range(len(self._connections[i])):
+                self._connections[i][j].value = values[i][j]
 
     def __getitem__(self, key):
         if isinstance(key, slice):
@@ -43,7 +46,7 @@ class Spectrum:
         if (key >= 0) and (key < len(self._connections)):
             return self._connections[key]
         else:
-            raise IndexError("Spectrum height exceeded.")
+            raise IndexError("Image height exceeded.")
 
     def __len__(self):
         return len(self._connections)

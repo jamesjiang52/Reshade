@@ -4,6 +4,8 @@ The following classes are defined:
     BinaryStepActivationLayer
 """
 
+from ..utils.validate import *
+
 
 class BinaryStepActivationNeuron:
     def __init__(self, input, output):
@@ -22,17 +24,14 @@ class BinaryStepActivationNeuron:
 
 class BinaryStepActivationLayer:
     def __init__(self, inputs, outputs):
-        if len(outputs) != len(inputs):
-            raise TypeError(
-                "Expected {0} outputs, received {1}.".format(
-                    len(inputs),
-                    len(outputs)
-                )
-            )
+        validate_dimensions_layer(inputs)
+        validate_dimensions_layer(outputs)
+        validate_same_dimensions_layer(inputs, outputs)
 
         self._inputs = inputs
         self._outputs = outputs
-        self._neurons = [
-            BinaryStepActivationNeuron(inputs[i], outputs[i])
-            for i in range(len(inputs))
-        ]
+        self._neurons = [[[
+            BinaryStepActivationNeuron(inputs[i][j][k], outputs[i][j][k])
+            for k in range(len(inputs[0][0]))]
+            for j in range(len(inputs[0]))]
+            for i in range(len(inputs))]
