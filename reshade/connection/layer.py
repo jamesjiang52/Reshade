@@ -9,8 +9,8 @@ from .connection import Connection
 
 class ConnectionLayer:
     def __init__(
-        self, *,
-        connections=None,
+        self, connections=None,
+        *,
         depth=None,
         height=None,
         width=None

@@ -8,7 +8,7 @@ from .connection import Connection
 
 
 class Image:
-    def __init__(self, *, connections=None, height=None, width=None):
+    def __init__(self, connections=None, *, height=None, width=None):
         if connections is not None:
             validate_dimensions_image(connections)
             self._connections = connections

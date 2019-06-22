@@ -8,7 +8,7 @@ from .connection import Connection
 
 
 class Spectrum:
-    def __init__(self, *, connections=None, width=None):
+    def __init__(self, connections=None, *, width=None):
         if connections is not None:
             self._connections = connections
         elif width is not None:
