@@ -39,7 +39,7 @@ class L2NormPoolingLayer:
     ):
         validate_dimensions_layer(inputs)
         validate_dimensions_layer(outputs)
-        validate_receptive_parameters(
+        validate_receptive_parameters_layer(
             inputs,
             outputs,
             receptive_height,
