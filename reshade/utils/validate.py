@@ -1,16 +1,26 @@
 """
-The following function are defined:
+The following functions are defined:
     validate_dimensions_image
     validate_dimensions_layer
     validate_same_dimensions_spectrum
     validate_same_dimensions_image
     validate_same_dimensions_layer
     validate_receptive_parameters_image
+    validate_receptive_parameters_layer
+    validate_receptive_parameters_layer_image
 """
 
 
 def validate_dimensions_image(inputs):
     """
+    Checks that the input image's dimensions are consistent.
+
+    Args:
+        inputs: A 2-dimensional list-like, or an object of type Image. The
+            input image.
+
+    Raises:
+        TypeError: If the input image's dimensions are not consistent.
     """
     width = len(inputs[0])
     for i in range(len(inputs)):
@@ -27,6 +37,14 @@ def validate_dimensions_image(inputs):
 
 def validate_dimensions_layer(inputs):
     """
+    Checks that the input layer's dimensions are consistent.
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+
+    Raises:
+        TypeError: If the input layer's dimensions are not consistent.
     """
     height = len(inputs[0])
     width = len(inputs[0][0])
@@ -56,6 +74,17 @@ def validate_dimensions_layer(inputs):
 
 def validate_same_dimensions_spectrum(inputs, outputs):
     """
+    Checks that the output spectrum's dimension matches the input spectrum.
+
+    Args:
+        inputs: A 1-dimensional list-like, or an object of type Spectrum. The
+            input spectrum.
+        outputs: A 1-dimensional list-like, or an object of type Spectrum. The
+            output spectrum.
+
+    Raises:
+        TypeError: If the output spectrum's dimension does not match the input
+            spectrum.
     """
     if len(outputs) != len(inputs):
         raise TypeError(
@@ -68,6 +97,18 @@ def validate_same_dimensions_spectrum(inputs, outputs):
 
 def validate_same_dimensions_image(inputs, outputs):
     """
+    Checks that the output image's dimensions match the input image, under the
+    precondition that both image's dimensions are consistent.
+
+    Args:
+        inputs: A 2-dimensional list-like, or an object of type Image. The
+            input image.
+        outputs: A 2-dimensional list-like, or an object of type Image. The
+            output image.
+
+    Raises:
+        TypeError: If the output image's dimensions do not match the input
+            image.
     """
     if len(outputs) != len(inputs):
         raise TypeError(
@@ -91,6 +132,18 @@ def validate_same_dimensions_image(inputs, outputs):
 
 def validate_same_dimensions_layer(inputs, outputs):
     """
+    Checks that the output layer's dimensions match the input layer, under the
+    precondition that both layer's dimensions are consistent.
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The output layer.
+
+    Raises:
+        TypeError: If the output layer's dimensions do not match the input
+            layer.
     """
     if len(outputs) != len(inputs):
         raise TypeError(
@@ -133,6 +186,40 @@ def validate_receptive_parameters_image(
     stride_width
 ):
     """
+    Checks that the given receptive height, receptive width, stride height, and
+    stride width are valid for the dimensions of the input and output images,
+    under the precondition that both image's dimensions are consistent.
+
+    In particular, the following are checked:
+        - The height of the input is greater than or equal to the receptive
+            height
+        - The width of the input is greater than or equal to the receptive
+            width
+        - The height of the input modulo the stride height is equal to the
+            receptive height modulo the stride height
+        - The width of the input modulo the stride width is equal to the
+            receptive width modulo the stride width
+        - The height of the output is equal to the difference between the
+            height of the input and the receptive height, divided by the stride
+            height, plus one
+        - The width of the output is equal to the difference between the width
+            of the input and the receptive width, divided by the stride width,
+            plus one
+        - The receptive height is greater than or equal to the stride height
+        - The receptive width is greater than or equal to the stride width
+
+    Args:
+        inputs: A 2-dimensional list-like, or an object of type Image. The
+            input image.
+        outputs: A 2-dimensional list-like, or an object of type Image. The
+            output image.
+        receptive_height: A positive integer. The receptive height.
+        receptive_width: A positive integer. The receptive width.
+        stride_height: A positive integer. The stride height.
+        stride_width: A positive integer. The stride width.
+
+    Raises:
+        ValueError: If any of the above conditions do not hold.
     """
     if len(inputs) < receptive_height:
         raise ValueError(
@@ -192,6 +279,40 @@ def validate_receptive_parameters_layer(
     stride_width
 ):
     """
+    Checks that the given receptive height, receptive width, stride height, and
+    stride width are valid for the dimensions of the input and output layers,
+    under the precondition that both layer's dimensions are consistent.
+
+    In particular, the following are checked:
+        - The height of the input is greater than or equal to the receptive
+            height
+        - The width of the input is greater than or equal to the receptive
+            width
+        - The height of the input modulo the stride height is equal to the
+            receptive height modulo the stride height
+        - The width of the input modulo the stride width is equal to the
+            receptive width modulo the stride width
+        - The height of the output is equal to the difference between the
+            height of the input and the receptive height, divided by the stride
+            height, plus one
+        - The width of the output is equal to the difference between the width
+            of the input and the receptive width, divided by the stride width,
+            plus one
+        - The receptive height is greater than or equal to the stride height
+        - The receptive width is greater than or equal to the stride width
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The output layer.
+        receptive_height: A positive integer. The receptive height.
+        receptive_width: A positive integer. The receptive width.
+        stride_height: A positive integer. The stride height.
+        stride_width: A positive integer. The stride width.
+
+    Raises:
+        ValueError: If any of the above conditions do not hold.
     """
     if len(inputs[0]) < receptive_height:
         raise ValueError(
@@ -251,6 +372,41 @@ def validate_receptive_parameters_layer_image(
     stride_width
 ):
     """
+    Checks that the given receptive height, receptive width, stride height, and
+    stride width are valid for the dimensions of the input layer and the output
+    image, under the precondition that both the input layer's and the output
+    image's dimensions are consistent.
+
+    In particular, the following are checked:
+        - The height of the input is greater than or equal to the receptive
+            height
+        - The width of the input is greater than or equal to the receptive
+            width
+        - The height of the input modulo the stride height is equal to the
+            receptive height modulo the stride height
+        - The width of the input modulo the stride width is equal to the
+            receptive width modulo the stride width
+        - The height of the output is equal to the difference between the
+            height of the input and the receptive height, divided by the stride
+            height, plus one
+        - The width of the output is equal to the difference between the width
+            of the input and the receptive width, divided by the stride width,
+            plus one
+        - The receptive height is greater than or equal to the stride height
+        - The receptive width is greater than or equal to the stride width
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 2-dimensional list-like, or an object of type Image. The
+            output image.
+        receptive_height: A positive integer. The receptive height.
+        receptive_width: A positive integer. The receptive width.
+        stride_height: A positive integer. The stride height.
+        stride_width: A positive integer. The stride width.
+
+    Raises:
+        ValueError: If any of the above conditions do not hold.
     """
     if len(inputs[0]) < receptive_height:
         raise ValueError(
