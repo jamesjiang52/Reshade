@@ -41,3 +41,7 @@ class DenseLayer:
         self._inputs = inputs
         self._outputs = outputs
         self._neurons = [DenseNeuron(inputs, output) for output in outputs]
+
+    @property
+    def neurons(self):
+        return self._neurons
