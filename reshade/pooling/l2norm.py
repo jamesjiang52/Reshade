@@ -9,6 +9,15 @@ from ..utils.validate import *
 
 
 class L2NormPoolingNeuron:
+    """
+    Construct a new l2norm pooling neuron. The output takes on the square root
+    of the sum of the squares of the values in the input image.
+
+    Args:
+        inputs: A 2-dimensional list-like, or an object of type Image. The
+            input image.
+        output: An object of type Connection. The output.
+    """
     def __init__(self, inputs, output):
         validate_dimensions_image(inputs)
 
@@ -28,6 +37,24 @@ class L2NormPoolingNeuron:
 
 
 class L2NormPoolingLayer:
+    """
+    Construct a new l2norm pooling layer. Each neuron in the layer performs
+    l2norm pooling on its receptive field in the input layer for the
+    corresponding output in the output layer.
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The output layer.
+        receptive_height: A positive integer. The height of the receptive
+            field.
+        receptive_width: A positive integer. The width of the receptive field.
+        stride_height: A positive integer. The stride height across adjacent
+            receptive fields.
+        stride_width: A positive integer. The stride width across adjacent
+            receptive fields.
+    """
     def __init__(
         self,
         inputs,

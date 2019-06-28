@@ -9,6 +9,14 @@ from ..utils.validate import *
 
 
 class TanhActivationNeuron:
+    """
+    Construct a new tanh activation neuron. The output takes on the hyperbolic
+    tangent of the input.
+
+    Args:
+        input: An object of type Connection. The input.
+        output: An object of type Connection. The output.
+    """
     def __init__(self, input, output):
         self._input = input
         self._output = output
@@ -21,6 +29,17 @@ class TanhActivationNeuron:
 
 
 class TanhActivationLayer:
+    """
+    Construct a new tanh activation layer. Each neuron in the layer performs
+    tanh activation on its input in the input layer for the corresponding
+    output in the output layer.
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The output layer.
+    """
     def __init__(self, inputs, outputs):
         validate_dimensions_layer(inputs)
         validate_dimensions_layer(outputs)
