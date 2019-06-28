@@ -14,9 +14,11 @@ class TestSpectrum:
         connection1 = rs.Connection(0)
         connection2 = rs.Connection(1)
         connection3 = rs.Connection(0)
+
         spectrum = rs.Spectrum(
             connections=[connection1, connection2, connection3]
         )
+        
         assert spectrum.connections == [connection1, connection2, connection3]
         assert spectrum.values == [0, 1, 0]
 

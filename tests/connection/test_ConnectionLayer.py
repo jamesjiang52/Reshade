@@ -26,26 +26,20 @@ class Test_ConnectionLayer:
         connection4 = rs.Connection(1)
         connection5 = rs.Connection(0)
         connection6 = rs.Connection(1)
-        layer = rs.ConnectionLayer(
-            connections=[
-                [[connection1],
-                 [connection2],
-                 [connection3]],
 
-                [[connection4],
-                 [connection5],
-                 [connection6]]
-            ]
-        )
-        assert layer.connections == [
-            [[connection1],
-             [connection2],
-             [connection3]],
+        spectrum1 = rs.Spectrum([connection1])
+        spectrum2 = rs.Spectrum([connection2])
+        spectrum3 = rs.Spectrum([connection3])
+        spectrum4 = rs.Spectrum([connection4])
+        spectrum5 = rs.Spectrum([connection5])
+        spectrum6 = rs.Spectrum([connection6])
 
-            [[connection4],
-             [connection5],
-             [connection6]]
-        ]
+        image1 = rs.Image([spectrum1, spectrum2, spectrum3])
+        image2 = rs.Image([spectrum4, spectrum5, spectrum6])
+
+        layer = rs.ConnectionLayer(images=[image1, image2])
+
+        assert layer.images == [image1, image2]
         assert layer.values == [
             [[0],
              [1],

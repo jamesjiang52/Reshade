@@ -19,16 +19,13 @@ class TestImage:
         connection2 = rs.Connection(1)
         connection3 = rs.Connection(0)
         connection4 = rs.Connection(1)
-        image = rs.Image(
-            connections=[
-                [connection1, connection2],
-                [connection3, connection4]
-            ]
-        )
-        assert image.connections == [
-            [connection1, connection2],
-            [connection3, connection4]
-        ]
+        
+        spectrum1 = rs.Spectrum([connection1, connection2])
+        spectrum2 = rs.Spectrum([connection3, connection4])
+
+        image = rs.Image(spectra=[spectrum1, spectrum2])
+
+        assert image.spectra == [spectrum1, spectrum2]
         assert image.values == [
             [0, 1],
             [0, 1]
