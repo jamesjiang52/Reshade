@@ -7,21 +7,17 @@ The following classes are defined:
 
 from ..dense import DenseNeuron
 from ..utils.validate import *
+from ..utils.flatten import *
 
 
 class ConvolutionNeuron:
     def __init__(self, inputs, output):
         validate_dimensions_layer(inputs)
 
-        self._inputs = inputs
+        self._inputs = flatten_layer(inputs)
         self._output = output
 
-        DenseNeuron(
-            [input_ for depth_slice in self._inputs
-             for row in depth_slice
-             for input_ in row],
-            self._output
-        )
+        DenseNeuron(self._inputs, self._output)
 
 
 class ConvolutionFilter:
