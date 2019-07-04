@@ -13,7 +13,7 @@ The following functions are defined:
 
 def validate_dimensions_image(inputs):
     """
-    Checks that the input image's dimensions are consistent.
+    Check that the input image's dimensions are consistent.
 
     Args:
         inputs: A 2-dimensional list-like, or an object of type Image. The
@@ -37,7 +37,7 @@ def validate_dimensions_image(inputs):
 
 def validate_dimensions_layer(inputs):
     """
-    Checks that the input layer's dimensions are consistent.
+    Check that the input layer's dimensions are consistent.
 
     Args:
         inputs: A 3-dimensional list-like, or an object of type
@@ -74,7 +74,7 @@ def validate_dimensions_layer(inputs):
 
 def validate_same_dimensions_spectrum(inputs, outputs):
     """
-    Checks that the output spectrum's dimension matches the input spectrum.
+    Check that the output spectrum's dimension matches the input spectrum.
 
     Args:
         inputs: A 1-dimensional list-like, or an object of type Spectrum. The
@@ -97,7 +97,7 @@ def validate_same_dimensions_spectrum(inputs, outputs):
 
 def validate_same_dimensions_image(inputs, outputs):
     """
-    Checks that the output image's dimensions match the input image, under the
+    Check that the output image's dimensions match the input image, under the
     precondition that both image's dimensions are consistent.
 
     Args:
@@ -132,7 +132,7 @@ def validate_same_dimensions_image(inputs, outputs):
 
 def validate_same_dimensions_layer(inputs, outputs):
     """
-    Checks that the output layer's dimensions match the input layer, under the
+    Check that the output layer's dimensions match the input layer, under the
     precondition that both layer's dimensions are consistent.
 
     Args:
@@ -186,7 +186,7 @@ def validate_receptive_parameters_image(
     stride_width
 ):
     """
-    Checks that the given receptive height, receptive width, stride height, and
+    Check that the given receptive height, receptive width, stride height, and
     stride width are valid for the dimensions of the input and output images,
     under the precondition that both image's dimensions are consistent.
 
@@ -279,7 +279,7 @@ def validate_receptive_parameters_layer(
     stride_width
 ):
     """
-    Checks that the given receptive height, receptive width, stride height, and
+    Check that the given receptive height, receptive width, stride height, and
     stride width are valid for the dimensions of the input and output layers,
     under the precondition that both layer's dimensions are consistent.
 
@@ -372,7 +372,7 @@ def validate_receptive_parameters_layer_image(
     stride_width
 ):
     """
-    Checks that the given receptive height, receptive width, stride height, and
+    Check that the given receptive height, receptive width, stride height, and
     stride width are valid for the dimensions of the input layer and the output
     image, under the precondition that both the input layer's and the output
     image's dimensions are consistent.
