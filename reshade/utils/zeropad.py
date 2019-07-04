@@ -11,6 +11,7 @@ from ..connection.layer import ConnectionLayer
 
 def zeropad_image(inputs, left=0, right=0, top=0, bottom=0):
     """
+<<<<<<< HEAD
     Zero-pad the input image.
 
     Args:
@@ -26,6 +27,8 @@ def zeropad_image(inputs, left=0, right=0, top=0, bottom=0):
             If not given, defaults to 0.
 
     Returns: An object of type Image. The zero-padded input image.
+=======
+>>>>>>> master
     """
     return Image(
         spectra=[[Connection(0) for j in range(len(inputs[0]) + left + right)]
@@ -39,6 +42,7 @@ def zeropad_image(inputs, left=0, right=0, top=0, bottom=0):
 
 def zeropad_layer(inputs, left=0, right=0, top=0, bottom=0):
     """
+<<<<<<< HEAD
     Zero-pad the input layer.
 
     Args:
@@ -54,6 +58,8 @@ def zeropad_layer(inputs, left=0, right=0, top=0, bottom=0):
             If not given, defaults to 0.
 
     Returns: An object of type ConnectionLayer. The zero-padded input layer.
+=======
+>>>>>>> master
     """
     return ConnectionLayer(
         images=[
