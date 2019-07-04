@@ -13,8 +13,8 @@ class TestBinaryStepActivationLayer:
              [0, 0]]
         ]
         assert outputs.values == [
-            [[0, 0],
-             [0, 0]]
+            [[1, 1],
+             [1, 1]]
         ]
 
         inputs.values = [

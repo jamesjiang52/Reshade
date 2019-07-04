@@ -5,6 +5,7 @@ The following classes are defined:
 """
 
 from ..utils.validate import *
+from ..utils.flatten import *
 
 
 class MaxPoolingNeuron:
@@ -20,18 +21,17 @@ class MaxPoolingNeuron:
     def __init__(self, inputs, output):
         validate_dimensions_image(inputs)
 
-        self._inputs = inputs
+        self._inputs = flatten_image(inputs)
         self._output = output
 
-        for row in self._inputs:
-            for input_ in row:
-                input_.bind_to(self._update_inputs)
+        for input_ in self._inputs:
+            input_.bind_to(self._update_inputs)
 
         self._update_inputs()
 
     def _update_inputs(self):
         self._output.value = max([
-            input_.value for row in self._inputs for input_ in row
+            input_.value for input_ in self._inputs
         ])
 
 

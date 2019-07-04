@@ -24,7 +24,7 @@ class BinaryStepActivationNeuron:
         self._update_input()
 
     def _update_input(self):
-        if self._input.value > 0:
+        if self._input.value >= 0:
             self._output.value = 1
         else:
             self._output.value = 0
