@@ -1,21 +1,19 @@
 """
-The following functions are defined:
-    zeropad_image
-    zeropad_layer
+The following classes are defined:
+    ZeropadLayer
 """
 
-from ..connection.connection import Connection
-from ..connection.image import Image
-from ..connection.layer import ConnectionLayer
+from .validate import *
 
 
-def zeropad_image(inputs, left=0, right=0, top=0, bottom=0):
+class ZeropadLayer:
     """
-    Zero-pad the input image.
+    Construct a new zero-padding layer. The input layer is zero-padded by
+    the specified amount to form the output layer.
 
     Args:
-        inputs: A 2-dimensional list-like, or an object of type Image. The
-            input image.
+        inputs: An object of type ConnectionLayer. The input layer.
+        outputs: An object of type ConnectionLayer. The output layer.
         left: A non-negative integer. The amount to zero-pad on the left. If
             not given, defaults to 0.
         right: A non-negative integer. The amount to zero-pad on the right. If
@@ -24,45 +22,43 @@ def zeropad_image(inputs, left=0, right=0, top=0, bottom=0):
             given, defaults to 0.
         bottom: A non-negative integer. The amount to zero-pad on the bottom.
             If not given, defaults to 0.
-
-    Returns: An object of type Image. The zero-padded input image.
     """
-    return Image(
-        spectra=[[Connection(0) for j in range(len(inputs[0]) + left + right)]
-            for i in range(top)] + \
-            [[Connection(0) for j in range(left)] + list(row) +
-            [Connection(0) for j in range(right)] for row in inputs] + \
-            [[Connection(0) for j in range(len(inputs[0]) + left + right)]
-            for i in range(bottom)]
-    )
+    def __init__(self, inputs, outputs, left=0, right=0, top=0, bottom=0):
+        validate_dimensions_layer(inputs)
+        validate_dimensions_layer(outputs)
+        validate_same_dimensions_zeropad(
+            inputs,
+            outputs,
+            left,
+            right,
+            top,
+            bottom
+        )
 
+        self._inputs = inputs
+        self._outputs = outputs
+        self._left = left
+        self._right = right
+        self._top = top
+        self._bottom = bottom
 
-def zeropad_layer(inputs, left=0, right=0, top=0, bottom=0):
-    """
-    Zero-pad the input layer.
+        for depth_slice in self._inputs:
+            for row in depth_slice:
+                for input_ in row:
+                    input_.bind_to(self._update_inputs)
 
-    Args:
-        inputs: A 3-dimensional list-like, or an object of type
-            ConnectionLayer. The input layer.
-        left: A non-negative integer. The amount to zero-pad on the left. If
-            not given, defaults to 0.
-        right: A non-negative integer. The amount to zero-pad on the right. If
-            not given, defaults to 0.
-        top: A non-negative integer. The amount to zero-pad on the top. If not
-            given, defaults to 0.
-        bottom: A non-negative integer. The amount to zero-pad on the bottom.
-            If not given, defaults to 0.
+        self._update_inputs()
 
-    Returns: An object of type ConnectionLayer. The zero-padded input layer.
-    """
-    return ConnectionLayer(
-        images=[
-            [[Connection(0) for j in range(len(inputs[0]) + left + right)]
-            for i in range(top)] + \
-            [[Connection(0) for j in range(left)] + list(row) +
-            [Connection(0) for j in range(right)] for row in depth_slice] + \
-            [[Connection(0) for j in range(len(inputs[0]) + left + right)]
-            for i in range(bottom)]
-            for depth_slice in inputs
+    def _update_inputs(self):
+        self._outputs.values = [
+            [[0 for j in range(len(self._inputs[0][0]) +
+                               self._left + self._right)]
+                for i in range(self._top)] +
+            [[0 for j in range(self._left)] + row.values +
+                [0 for j in range(self._right)]
+                for row in depth_slice] +
+            [[0 for j in range(len(self._inputs[0][0]) +
+                               self._left + self._right)]
+                for i in range(self._bottom)]
+            for depth_slice in self._inputs
         ]
-    )

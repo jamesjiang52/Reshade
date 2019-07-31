@@ -34,10 +34,8 @@ class IdentityActivationLayer:
     corresponding output in the output layer.
 
     Args:
-        inputs: A 3-dimensional list-like, or an object of type
-            ConnectionLayer. The input layer.
-        outputs: A 3-dimensional list-like, or an object of type
-            ConnectionLayer. The output layer.
+        inputs: An object of type ConnectionLayer. The input layer.
+        outputs: An object of type ConnectionLayer. The output layer.
     """
     def __init__(self, inputs, outputs):
         validate_dimensions_layer(inputs)

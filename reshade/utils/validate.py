@@ -5,6 +5,8 @@ The following functions are defined:
     validate_same_dimensions_spectrum
     validate_same_dimensions_image
     validate_same_dimensions_layer
+    validate_same_dimensions_zeropad
+    validate_same_dimensions_flatten
     validate_receptive_parameters_image
     validate_receptive_parameters_layer
     validate_receptive_parameters_layer_image
@@ -98,7 +100,7 @@ def validate_same_dimensions_spectrum(inputs, outputs):
 def validate_same_dimensions_image(inputs, outputs):
     """
     Check that the output image's dimensions match the input image, under the
-    precondition that both image's dimensions are consistent.
+    precondition that both images' dimensions are consistent.
 
     Args:
         inputs: A 2-dimensional list-like, or an object of type Image. The
@@ -133,7 +135,7 @@ def validate_same_dimensions_image(inputs, outputs):
 def validate_same_dimensions_layer(inputs, outputs):
     """
     Check that the output layer's dimensions match the input layer, under the
-    precondition that both layer's dimensions are consistent.
+    precondition that both layers' dimensions are consistent.
 
     Args:
         inputs: A 3-dimensional list-like, or an object of type
@@ -177,6 +179,72 @@ def validate_same_dimensions_layer(inputs, outputs):
                 )
 
 
+def validate_same_dimensions_zeropad(
+    inputs,
+    outputs,
+    left,
+    right,
+    top,
+    bottom
+):
+    """
+    Check that the output layer's dimensions match the zero-padded input layer,
+    under the precondition that both layers' dimensions are consistent.
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The output layer.
+
+    Raises:
+        TypeError: If the output layer's dimensions do not match the input
+            layer.
+    """
+    if len(inputs[0]) + top + bottom != len(outputs[0]):
+        raise TypeError(
+            "Expected output layer with height {0} after zero-padding, "
+            "received {1}.".format(
+                len(inputs[0]) + top + bottom,
+                len(outputs[0])
+            )
+        )
+
+    if len(inputs[0][0]) + left + right != len(outputs[0][0]):
+        raise TypeError(
+            "Expected output layer with width {0} after zero-padding, "
+            "received {1}.".format(
+                len(inputs[0]) + top + bottom,
+                len(outputs[0])
+            )
+        )
+
+
+def validate_same_dimensions_flatten(inputs, outputs):
+    """
+    Check that the output spectrum's dimensions match the flattened input
+    layer, under the precondition that the input layer's dimensions are
+    consistent.
+
+    Args:
+        inputs: A 3-dimensional list-like, or an object of type
+            ConnectionLayer. The input layer.
+        outputs: A 1-dimensional list-like, or an object of type Spectrum. The
+            output spectrum.
+
+    Raises:
+        TypeError: If the output spectrum's dimensions do not match the input
+            layer.
+    """
+    if len(inputs)*len(inputs[0])*len(inputs[0][0]) != len(outputs):
+        raise TypeError(
+            "Expected {} outputs, received {}.".format(
+                len(inputs)*len(inputs[0])*len(inputs[0][0]),
+                len(outputs)
+            )
+        )
+
+
 def validate_receptive_parameters_image(
     inputs,
     outputs,
@@ -188,7 +256,7 @@ def validate_receptive_parameters_image(
     """
     Check that the given receptive height, receptive width, stride height, and
     stride width are valid for the dimensions of the input and output images,
-    under the precondition that both image's dimensions are consistent.
+    under the precondition that both images' dimensions are consistent.
 
     In particular, the following are checked:
         - The height of the input is greater than or equal to the receptive
@@ -281,7 +349,7 @@ def validate_receptive_parameters_layer(
     """
     Check that the given receptive height, receptive width, stride height, and
     stride width are valid for the dimensions of the input and output layers,
-    under the precondition that both layer's dimensions are consistent.
+    under the precondition that both layers' dimensions are consistent.
 
     In particular, the following are checked:
         - The height of the input is greater than or equal to the receptive
@@ -374,7 +442,7 @@ def validate_receptive_parameters_layer_image(
     """
     Check that the given receptive height, receptive width, stride height, and
     stride width are valid for the dimensions of the input layer and the output
-    image, under the precondition that both the input layer's and the output
+    image, under the precondition that both the input layers' and the output
     image's dimensions are consistent.
 
     In particular, the following are checked:

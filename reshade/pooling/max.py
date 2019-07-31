@@ -14,8 +14,7 @@ class MaxPoolingNeuron:
     values in the input image.
 
     Args:
-        inputs: A 2-dimensional list-like, or an object of type Image. The
-            input image.
+        inputs: An object of type Image. The input image.
         output: An object of type Connection. The output.
     """
     def __init__(self, inputs, output):
@@ -42,10 +41,8 @@ class MaxPoolingLayer:
     output in the output layer.
 
     Args:
-        inputs: A 3-dimensional list-like, or an object of type
-            ConnectionLayer. The input layer.
-        outputs: A 3-dimensional list-like, or an object of type
-            ConnectionLayer. The output layer.
+        inputs: An object of type ConnectionLayer. The input layer.
+        outputs: An object of type ConnectionLayer. The output layer.
         receptive_height: A positive integer. The height of the receptive
             field.
         receptive_width: A positive integer. The width of the receptive field.
